@@ -6,7 +6,7 @@
 /*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/11/21 11:31:37 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/11/21 19:00:59 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,25 @@ char	*ft_strjoin(char *s1, char *s2)
 	 return (NULL);
 	ft_strcat(ptr, s1);
 	ft_strcat(ptr, s2);
+	return (ptr);
+}
+
+char	*ft_strdup(char *s1)
+{
+	char	*ptr;
+	int	i;
+	int	len_str;
+
+	i = 0;
+	len_str = ft_strlen(s1);
+	ptr = malloc(sizeof(*ptr) * (len_str + 1));
+	if (!ptr)
+		return (NULL);
+	while (s1[i])
+	{
+		ptr[i] = s[i];
+		i++;
+	}
+	ptr[i] = '\0';
 	return (ptr);
 }
