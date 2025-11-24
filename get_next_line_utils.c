@@ -6,9 +6,13 @@
 /*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/11/21 19:00:59 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/11/24 15:09:15 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stddef.h>
+
 
 int	ft_checkback(char *base)
 {
@@ -16,8 +20,8 @@ int	ft_checkback(char *base)
 	int		i;
 	
 	i = 0;
-	back = '\0';
-	while (base[sei])
+	back = '\n';
+	while (base[i])
 	{
 		if(base[i] == back)
 			return (1);
@@ -60,7 +64,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 
 	i = 0;
-	ptr = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1):
+	ptr = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	if (!ptr)
 	 return (NULL);
 	ft_strcat(ptr, s1);
@@ -81,7 +85,7 @@ char	*ft_strdup(char *s1)
 		return (NULL);
 	while (s1[i])
 	{
-		ptr[i] = s[i];
+		ptr[i] = s1[i];
 		i++;
 	}
 	ptr[i] = '\0';
