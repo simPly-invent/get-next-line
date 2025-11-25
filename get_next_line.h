@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:17 by mobenais          #+#    #+#             */
-/*   Updated: 2025/11/21 11:07:44 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/11/25 20:55:58 by mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 #endif
 
 char 	*get_next_line(int fd);
-int		checkback(char *base);
+int		ft_checkback(char *base);
 int		ft_strlen(char *s1);
-char 	*strcat(char *s1, char *s2);
+char 	*ft_strcat(char *s1, char *s2);
 char	*ft_strjoin(char *s1, char *s2);
-
-
+char	*ft_strdup(char *s1);
+char	*ft_substr(char *str, int start, int len);
 #endif
