@@ -6,7 +6,7 @@
 /*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:17 by mobenais          #+#    #+#             */
-/*   Updated: 2025/11/25 20:55:58 by mohamed          ###   ########.fr       */
+/*   Updated: 2025/11/29 14:00:53 by mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,15 @@
 # define BUFFER_SIZE 42
 #endif
 
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 char 	*get_next_line(int fd);
-int		ft_checkback(char *base);
-int		ft_strlen(char *s1);
-char 	*ft_strcat(char *s1, char *s2);
+int		ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strdup(char *s1);
 char	*ft_substr(char *str, int start, int len);
+void	fill_str(char *res, char *s1, char *s2);
 #endif

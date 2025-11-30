@@ -6,112 +6,86 @@
 /*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/11/25 21:00:48 by mohamed          ###   ########.fr       */
+/*   Updated: 2025/11/29 13:42:13 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
 
-int	ft_checkback(char *base)
+char	*ft_strdup(char *s1)
 {
-	int i = 0;
-	while (base[i])
+	char			*dest;
+	unsigned int	i;
+
+	dest = (char *) malloc(ft_strlen(s1) + 1);
+	if (!dest)
+		return (NULL);
+	i = 0;
+	while (s1[i])
 	{
-		if(base[i] == '\n')
-			return (1);
+		dest[i] = s1[i];
 		i++;
 	}
-	return (0);
+	dest[i] = 0;
+	return (dest);
 }
 
-int	ft_strlen(char *s1)
+int	ft_strlen(char *s)
 {
-	int	i = 0;
-	if (!s1)
-		return 0;
-	while(s1[i])
+	int	i;
+
+	i = 0;
+	while (s[i])
 		i++;
 	return (i);
 }
 
-char *ft_strcat(char *s1, char *s2)
+char	*ft_substr(char *s, int start, int len)
 {
-	int	i = 0;
-	int	len_s1 = ft_strlen(s1);
+	int	i;
+	char	*str;
 
-	while (s2[i])
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		return (malloc(1));
+	if (len > ft_strlen(s + start))
+		len = ft_strlen(s + start);
+	str = malloc((len + 1) * sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (i < len)
 	{
-		s1[len_s1 + i] = s2[i];
+		str[i] = s[start + i];
 		i++;
 	}
-	s1[len_s1 + i] = '\0';
-	return (s1);
+	str[i] = 0;
+	return (str);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*ptr;
+	char			*res;
 
-	if (!s1)
-		return (ft_strdup(s2));
-	if (!s2)
-		return (ft_strdup(s1));
-
-	ptr = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!ptr)
+	res = (char *) malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	if (!res)
 		return (NULL);
-	ptr[0] = '\0';
-	ft_strcat(ptr, s1);
-	ft_strcat(ptr, s2);
-	free(s1);
-	return (ptr);
+	fill_str(res, s1, s2);
+	return (res);
 }
 
-char	*ft_strdup(char *s1)
+void	fill_str(char *res, char *s1, char *s2)
 {
-	int len = ft_strlen(s1);
-	char *ptr = malloc(len + 1);
-	int i = 0;
+	unsigned int	i;
+	unsigned int	j;
 
-	if (!ptr)
-		return (NULL);
-	while (s1[i])
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
+	i = 0;
+	j = 0;
+	while (s1[j])
+		res[i++] = s1[j++];
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
+	res[i] = '\0';
 }
-
-char	*ft_substr(char *str, int start, int len)
-{
-	char *ptr = malloc(len + 1);
-	int i = 0;
-
-	if (!ptr)
-		return NULL;
-
-	while (i < len && str[start + i])
-	{
-		ptr[i] = str[start + i];
-		i++;
-	}
-	ptr[i] = '\0';
-
-	return ptr;
-}
-
-
-
-/*
-int main(void)
-{
-	char *s = "oui je suis malade";
-	printf("string d'originre = %s\n", s);
-	printf("string modifier = %s \n", ft_substr(s, 4, 8));
-}
-*/
