@@ -3,121 +3,94 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/11/29 13:55:56 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/12/01 18:01:55 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*_fill_line_buffer(int fd, char *left_c, char *buffer);
-char	*_set_line(char *line_buffer);
-char	*_set_line(char *line_buffer);
+int	check_back_index(char *str)
+{
+	int i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
 
-
-static char	*ft_strchr(char *str, int c)
+void	ft_bzero(char *str ,int len)
 {
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while(i < len)
 	{
-		if (str[i] == (char)c)
-			return ((char *)&str[i]);
+		str[i] = '\0';
 		i++;
 	}
-	return (0);
 }
 
-static char	*ft_manage_str(int fd, char *left_c, char *buffer)
+static void	ft_strmove(char *dest, char *src, int offset)
 {
+	int i = 0;
 	
-	ssize_t	b_read;
-	char	*tmp;
-
-	b_read = 1;
-	while (b_read > 0)
+	while (src[i + offset])
 	{
-		b_read = read(fd, buffer, BUFFER_SIZE);
-		if (b_read == -1)
-		{
-			free(left_c);
-			return (NULL);
-		}
-		else if (b_read == 0)
-			break ;
-		buffer[b_read] = 0;
-		if (!left_c)
-			left_c = ft_strdup("");
-		tmp = left_c;
-		left_c = ft_strjoin(tmp, buffer);
-		free(tmp);
-		tmp = NULL;
-		if (ft_strchr(buffer, '\n'))
-			break ;
+		dest[i] = src[i + offset];
+		src[i + offset] = '\0';
+		i++;
 	}
-	return (left_c);
-}
-
-static char	*ft_check_str(char *line_buffer)
-{
-	
-    char    *extract_line;
-    ssize_t    i;
-    
-    i = 0;
-    while (line_buffer[i] != '\n' && line_buffer[i] != '\0')
-        i++;
-    if (line_buffer[i] == 0 || line_buffer[1] == 0)
-        return (NULL);
-       extract_line = ft_substr(line_buffer, i + 1, ft_strlen(line_buffer) - i);
-    if (extract_line == 0)
-    {
-        free(extract_line);
-        extract_line = NULL;
-    } 
-    line_buffer[i + 1] = 0;
-    return (extract_line);
+	dest[i] = '\0';
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
-	char		*extract_line;
-	char		*buffer;
-	
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	int res;
+	int len;
+	char *rslt;
+	static char buffer[BUFFER_SIZE + 1];
+
+	res = BUFFER_SIZE;
+	rslt = NULL;
+	rslt = ft_strjoin(rslt, buffer);
+	while (res > 0 && check_back_index(buffer) == -1)
 	{
-		free(stash);
-		free(buffer);
-		stash = NULL;
-		buffer = NULL;
-		write(1, "nothing to return", 17);
+		res = read(fd, buffer, BUFFER_SIZE);
+		rslt = ft_strjoin(rslt, buffer);
+		//printf("rslt: %s, buffer: %s\n", rslt, buffer);
+	}
+	len = check_back_index(buffer);
+	ft_strmove(buffer, buffer, len + 1);
+	if (res <= 0 && rslt[0] && !buffer[0])
+	{
+		ft_bzero(buffer, BUFFER_SIZE);
+		return (rslt);
+	}
+	if (!res && !rslt[0])
+	{
+		free(rslt);
 		return (NULL);
 	}
-	if (!buffer)
-		return (NULL);
-	extract_line = ft_manage_str(fd, stash, buffer);
-	free(buffer);
-	buffer = NULL;
-	if (!extract_line)
-		return (NULL);
-	stash = ft_check_str(extract_line);
-	return (extract_line);
+	return (rslt);
 }
-/*
+
 int main(int argc, char **argv)
 {
-	int	fd = open(argv[1], O_RDONLY);
-	char	*buffer;
-	while((buffer = get_next_line(fd)))
+	char *ptr;
+	int fd;
+	ptr = "";
+	fd = open(argv[1], O_RDONLY);
+	while (ptr)
 	{
-		printf("%s", buffer);
-		free(buffer);
+		ptr = get_next_line(fd);
+		printf("%s", ptr);
+		free(ptr);
 	}
 	close(fd);
 }
-*/
