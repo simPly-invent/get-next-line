@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/01 17:26:28 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/12/03 13:37:15 by mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int ft_strlen(char *str)
         i++;
     return (i);
 }
+
 char	*ft_strcat(char *dst, char *src)
 {
 	int	i;
@@ -28,7 +29,7 @@ char	*ft_strcat(char *dst, char *src)
 
 	i = 0;
 	dst_len = ft_strlen(dst);
-	while (src[i] && (!(src[i] == '\n')))
+	while (src[i] && src[i] != '\n')
 	{
 		dst[dst_len + i] = src[i];
 		i++;
@@ -36,24 +37,24 @@ char	*ft_strcat(char *dst, char *src)
     if( src[i] == '\n')
     {
         dst[dst_len + i] = src[i];
-        i++;
+				i++;
     }
 	dst[dst_len + i] = '\0';
 	return (dst);
 }
 
-char *ft_strdup(char *str)
+char *ft_strdup(char *str, int len)
 {
     char *ptr;
     int i;
 
     i = 0;
-    ptr = malloc(sizeof(str) * ft_strlen(str) + 1);
+    ptr = malloc(sizeof(str) * (ft_strlen(str) + 1));
     if(!str)
         return (NULL);
     if (!ptr)
         return (NULL);
-    while (str[i])
+    while (str[i] && i <= len)
     {
         ptr[i] = str[i];
         i++;
@@ -68,16 +69,14 @@ char *ft_strjoin(char *dst, char *src)
     char *ptr;
 
     if (!dst)
-        return (ft_strdup(src));
+        return (ft_strdup(src, ft_strlen(src)));
     if (!src)
-        return (ft_strdup(dst));
-    // printf("%d \n", ft_strlen(dst));
-    // printf("%d \n", ft_strlen(src));
+        return (ft_strdup(dst, ft_strlen(dst)));
     len = (ft_strlen(dst) + ft_strlen(src));
     ptr = malloc(sizeof(char) * (len + 1));
     if (!ptr)
         return (NULL);
-    ft_bzero(ptr, len);
+    ft_bzero(ptr, len + 1);
     if (dst)
         ft_strcat(ptr, dst);
     if(dst)

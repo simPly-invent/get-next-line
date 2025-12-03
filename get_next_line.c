@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/01 18:01:55 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/12/03 21:15:14 by mohamed          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	check_back_index(char *str)
 {
 	int i = 0;
+ 
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -43,7 +44,6 @@ static void	ft_strmove(char *dest, char *src, int offset)
 	while (src[i + offset])
 	{
 		dest[i] = src[i + offset];
-		src[i + offset] = '\0';
 		i++;
 	}
 	dest[i] = '\0';
@@ -51,32 +51,23 @@ static void	ft_strmove(char *dest, char *src, int offset)
 
 char	*get_next_line(int fd)
 {
-	int res;
-	int len;
+	int byte;
 	char *rslt;
 	static char buffer[BUFFER_SIZE + 1];
 
-	res = BUFFER_SIZE;
+	byte = 0;
 	rslt = NULL;
-	rslt = ft_strjoin(rslt, buffer);
-	while (res > 0 && check_back_index(buffer) == -1)
+	while (check_back_index(buffer) == -1)
 	{
-		res = read(fd, buffer, BUFFER_SIZE);
+		byte = read(fd, buffer, BUFFER_SIZE);
+		if (byte < 0 && buffer[0])
+		{
+			return (buffer);
+		}
 		rslt = ft_strjoin(rslt, buffer);
-		//printf("rslt: %s, buffer: %s\n", rslt, buffer);
 	}
-	len = check_back_index(buffer);
-	ft_strmove(buffer, buffer, len + 1);
-	if (res <= 0 && rslt[0] && !buffer[0])
-	{
-		ft_bzero(buffer, BUFFER_SIZE);
-		return (rslt);
-	}
-	if (!res && !rslt[0])
-	{
-		free(rslt);
-		return (NULL);
-	}
+	rslt = ft_strjoin(rslt, buffer);
+	ft_strmove(buffer, buffer, check_back_index(buffer) + 1);
 	return (rslt);
 }
 
@@ -84,13 +75,15 @@ int main(int argc, char **argv)
 {
 	char *ptr;
 	int fd;
+	int	i = 1;
 	ptr = "";
 	fd = open(argv[1], O_RDONLY);
-	while (ptr)
-	{
+	// while (ptr)
+	// {
 		ptr = get_next_line(fd);
 		printf("%s", ptr);
 		free(ptr);
-	}
+	//  	i++;
+	// }
 	close(fd);
 }
