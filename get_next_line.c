@@ -6,7 +6,7 @@
 /*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/04 15:34:30 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/12/04 16:38:06 by mobenais         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 int	check_back_index(char *str)
 {
-	int i = 0;
- 
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '\n')
@@ -25,12 +26,12 @@ int	check_back_index(char *str)
 	return (i);
 }
 
-void	ft_bzero(char *str ,int len)
+void	ft_bzero(char *str, int len)
 {
 	int	i;
 
 	i = 0;
-	while(i < len)
+	while (i < len)
 	{
 		str[i] = '\0';
 		i++;
@@ -39,8 +40,9 @@ void	ft_bzero(char *str ,int len)
 
 static void	ft_strmove(char *dest, char *src, int offset)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	while (src[i + offset])
 	{
 		dest[i] = src[i + offset];
@@ -52,6 +54,7 @@ static void	ft_strmove(char *dest, char *src, int offset)
 int	reading(char *buffer, int fd)
 {
 	int	byte_read;
+
 	byte_read = read(fd, buffer, BUFFER_SIZE);
 	if (byte_read >= 0)
 		buffer[byte_read] = 0;
@@ -62,9 +65,9 @@ int	reading(char *buffer, int fd)
 
 char	*get_next_line(int fd)
 {
-	t_gnl var;
-	static char buffer[BUFFER_SIZE + 1] = {0};
-	
+	t_gnl		var;
+	static char	buffer[BUFFER_SIZE + 1] = {0};
+
 	var.byte_read = 1;
 	var.extracted_line = NULL;
 	while (var.byte_read > 0)
@@ -72,11 +75,7 @@ char	*get_next_line(int fd)
 		if (!buffer[0])
 			var.byte_read = reading(buffer, fd);
 		if (var.byte_read < 0)
-		{
-			ft_bzero(buffer, ft_strlen(buffer));
-			free(var.extracted_line);
-			return (NULL);
-		}
+			return (ft_free_clean(var.extracted_line, buffer));
 		var.extracted_line = ft_strjoin(var.extracted_line, buffer);
 		if (!var.extracted_line)
 			return (NULL);
@@ -89,10 +88,7 @@ char	*get_next_line(int fd)
 			ft_bzero(buffer, ft_strlen(buffer));
 	}
 	if (var.byte_read <= 0 && ft_strlen(var.extracted_line) == 0)
-	{
-		free(var.extracted_line);
-		return NULL;
-	}
+		return (ft_free_clean(var.extracted_line, buffer));
 	return (var.extracted_line);
 }
 
@@ -109,7 +105,6 @@ char	*get_next_line(int fd)
 // 		printf("%s", ptr);
 // 		free(ptr);
 // 	}
-	
 // 	ptr = get_next_line(fd);
 // 	free(ptr);
 
