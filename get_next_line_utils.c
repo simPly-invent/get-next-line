@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohamed <mohamed@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/03 13:37:15 by mohamed          ###   ########.fr       */
+/*   Updated: 2025/12/04 10:31:40 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,24 +69,26 @@ char *ft_strjoin(char *dst, char *src)
     char *ptr;
 
     if (!dst)
-        return (ft_strdup(src, ft_strlen(src)));
+    {
+        dst = malloc(1);
+        if(!dst)
+            return (NULL);
+        dst[0] = '\0';
+    }
     if (!src)
-        return (ft_strdup(dst, ft_strlen(dst)));
+        return (dst);
     len = (ft_strlen(dst) + ft_strlen(src));
     ptr = malloc(sizeof(char) * (len + 1));
     if (!ptr)
+    {
+        free(dst);
         return (NULL);
+    }
     ft_bzero(ptr, len + 1);
-    if (dst)
+    if(dst)
         ft_strcat(ptr, dst);
     if(dst)
         free(dst);
     ft_strcat(ptr, src);
-    ptr[len] = '\0';
     return (ptr);
 }
-
-// int main(void)
-// {
-//     printf("%s", ft_strjoin("hello", " oui\nooooooooooooooooooooooo"));
-// }
