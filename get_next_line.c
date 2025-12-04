@@ -6,7 +6,7 @@
 /*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/04 10:51:24 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:34:30 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,37 +51,34 @@ static void	ft_strmove(char *dest, char *src, int offset)
 
 int	reading(char *buffer, int fd)
 {
-	int	byte;
-	byte = read(fd, buffer, BUFFER_SIZE);
-	if (byte >= 0)
-		buffer[byte] = 0;
+	int	byte_read;
+	byte_read = read(fd, buffer, BUFFER_SIZE);
+	if (byte_read >= 0)
+		buffer[byte_read] = 0;
 	else
 		buffer[0] = 0;
-	return (byte);
+	return (byte_read);
 }
 
 char	*get_next_line(int fd)
 {
-	int byte;
-	char *rslt;
+	t_gnl var;
 	static char buffer[BUFFER_SIZE + 1] = {0};
-
-	byte = 1;
-	rslt = NULL;
-	while (byte > 0)
+	
+	var.byte_read = 1;
+	var.extracted_line = NULL;
+	while (var.byte_read > 0)
 	{
 		if (!buffer[0])
-		{
-			byte = reading(buffer, fd);
-		}
-		if (byte < 0)
+			var.byte_read = reading(buffer, fd);
+		if (var.byte_read < 0)
 		{
 			ft_bzero(buffer, ft_strlen(buffer));
-			free(rslt);
+			free(var.extracted_line);
 			return (NULL);
 		}
-		rslt = ft_strjoin(rslt, buffer);
-		if (!rslt)
+		var.extracted_line = ft_strjoin(var.extracted_line, buffer);
+		if (!var.extracted_line)
 			return (NULL);
 		if (check_back_index(buffer) != ft_strlen(buffer))
 		{
@@ -89,31 +86,31 @@ char	*get_next_line(int fd)
 			break ;
 		}
 		else
-		{
 			ft_bzero(buffer, ft_strlen(buffer));
-		}
 	}
-	if (byte <= 0 && ft_strlen(rslt) == 0)
+	if (var.byte_read <= 0 && ft_strlen(var.extracted_line) == 0)
 	{
-		free(rslt);
+		free(var.extracted_line);
 		return NULL;
 	}
-	return (rslt);
+	return (var.extracted_line);
 }
 
 // int main(int argc, char **argv)
 // {
+// 	(void)argc;
 // 	char *ptr;
 // 	int fd;
-// 	int	i = 1;
 // 	ptr = "";
 // 	fd = open(argv[1], O_RDONLY);
+// 	while (ptr)
+// 	{
+// 		ptr = get_next_line(fd);
+// 		printf("%s", ptr);
+// 		free(ptr);
+// 	}
+	
 // 	ptr = get_next_line(fd);
 // 	free(ptr);
-// 	ptr = get_next_line(fd);
-// 	free(ptr);
-// 	close(fd);
-// 	ptr = get_next_line(fd);
-// 	printf("%s\n", ptr);
-// 	free(ptr);
+
 // }

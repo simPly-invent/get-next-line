@@ -6,11 +6,13 @@
 /*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/04 10:31:40 by mobenais         ###   ########.fr       */
+/*   Updated: 2025/12/04 15:38:28 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+static int imin(int a, int b);
 
 int ft_strlen(char *str)
 {
@@ -22,73 +24,56 @@ int ft_strlen(char *str)
     return (i);
 }
 
-char	*ft_strcat(char *dst, char *src)
+static void *ft_memcpy(void *dest, void *src, size_t len)
 {
-	int	i;
-	int	dst_len;
-
-	i = 0;
-	dst_len = ft_strlen(dst);
-	while (src[i] && src[i] != '\n')
-	{
-		dst[dst_len + i] = src[i];
-		i++;
-	}
-    if( src[i] == '\n')
-    {
-        dst[dst_len + i] = src[i];
-				i++;
-    }
-	dst[dst_len + i] = '\0';
-	return (dst);
-}
-
-char *ft_strdup(char *str, int len)
-{
-    char *ptr;
-    int i;
+    unsigned char    *s1;
+    unsigned char    *s2;
+    size_t  i;
 
     i = 0;
-    ptr = malloc(sizeof(str) * (ft_strlen(str) + 1));
-    if(!str)
-        return (NULL);
-    if (!ptr)
-        return (NULL);
-    while (str[i] && i <= len)
+    s1 = (unsigned char *)dest;
+    s2 = (unsigned char *)src;
+    while (i < len)
     {
-        ptr[i] = str[i];
+        s1[i] = s2[i];
         i++;
     }
-    ptr[i] = '\0';
-    return (ptr);
+    s1[i] = '\0';
+    return (s1);
 }
 
 char *ft_strjoin(char *dst, char *src)
 {
-    int len;
+    int  s1;
+    int  s2;
     char *ptr;
 
+    s1 = ft_strlen(dst);
+    s2 = imin(check_back_index(src) + 1, ft_strlen(src));
     if (!dst)
     {
-        dst = malloc(1);
+        dst = malloc(sizeof(char));
         if(!dst)
             return (NULL);
         dst[0] = '\0';
     }
-    if (!src)
-        return (dst);
-    len = (ft_strlen(dst) + ft_strlen(src));
-    ptr = malloc(sizeof(char) * (len + 1));
+    ptr = malloc(sizeof(char) * (s1 + s2 + 1));
     if (!ptr)
     {
         free(dst);
         return (NULL);
     }
-    ft_bzero(ptr, len + 1);
-    if(dst)
-        ft_strcat(ptr, dst);
-    if(dst)
-        free(dst);
-    ft_strcat(ptr, src);
+    ft_memcpy(ptr, dst, s1);
+    ft_memcpy(&ptr[s1], src, s2);
+    ptr[s1 + s2] = '\0';
+    free(dst);
     return (ptr);
 }
+
+static int imin(int a, int b)
+{
+    if (a < b)
+        return a;
+    return b;
+}
+
