@@ -6,7 +6,7 @@
 /*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/04 16:38:06 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/12/05 07:38:22 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	reading(char *buffer, int fd)
 char	*get_next_line(int fd)
 {
 	t_gnl		var;
-	static char	buffer[BUFFER_SIZE + 1] = {0};
+	static char	buffer[BUFFER_SIZE + 1];
 
 	var.byte_read = 1;
 	var.extracted_line = NULL;
