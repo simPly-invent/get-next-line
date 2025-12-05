@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/21 10:27:03 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 07:42:56 by mobenais         ###   ########.fr       */
+/*   Created: 2025/12/05 09:29:33 by mobenais          #+#    #+#             */
+/*   Updated: 2025/12/05 09:29:39 by mobenais         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static int	imin(int a, int b);
+static int	value_min(int a, int b);
 
 char	*ft_free_clean(char *ptr, char *buffer)
 {
@@ -59,7 +59,7 @@ char	*ft_strjoin(char *dst, char *src)
 	char	*ptr;
 
 	s1 = ft_strlen(dst);
-	s2 = imin(check_back_index(src) + 1, ft_strlen(src));
+	s2 = value_min(isback(src) + 1, ft_strlen(src));
 	if (!dst)
 	{
 		dst = malloc(sizeof(char));
@@ -80,7 +80,7 @@ char	*ft_strjoin(char *dst, char *src)
 	return (ptr);
 }
 
-static int	imin(int a, int b)
+static int	value_min(int a, int b)
 {
 	if (a < b)
 		return (a);

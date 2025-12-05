@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 07:38:22 by mobenais         ###   ########.fr       */
+/*   Created: 2025/12/05 09:28:43 by mobenais          #+#    #+#             */
+/*   Updated: 2025/12/05 09:28:47 by mobenais         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	check_back_index(char *str)
+int	isback(char *str)
 {
 	int	i;
 
@@ -79,9 +79,9 @@ char	*get_next_line(int fd)
 		var.extracted_line = ft_strjoin(var.extracted_line, buffer);
 		if (!var.extracted_line)
 			return (NULL);
-		if (check_back_index(buffer) != ft_strlen(buffer))
+		if (isback(buffer) != ft_strlen(buffer))
 		{
-			ft_strmove(buffer, buffer, check_back_index(buffer) + 1);
+			ft_strmove(buffer, buffer, isback(buffer) + 1);
 			break ;
 		}
 		else

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/20 13:01:40 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 07:43:40 by mobenais         ###   ########.fr       */
+/*   Created: 2025/12/05 09:23:57 by mobenais          #+#    #+#             */
+/*   Updated: 2025/12/05 09:24:01 by mobenais         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int	check_back_index(char *str)
+int	isback(char *str)
 {
 	int	i;
 
@@ -79,9 +79,9 @@ char	*get_next_line(int fd)
 		var.extracted_line = ft_strjoin(var.extracted_line, buffer[fd]);
 		if (!var.extracted_line)
 			return (NULL);
-		if (check_back_index(buffer[fd]) != ft_strlen(buffer[fd]))
+		if (isback(buffer[fd]) != ft_strlen(buffer[fd]))
 		{
-			ft_strmove(buffer[fd], buffer[fd], check_back_index(buffer[fd]) + 1);
+			ft_strmove(buffer[fd], buffer[fd], isback(buffer[fd]) + 1);
 			break ;
 		}
 		else
@@ -91,7 +91,6 @@ char	*get_next_line(int fd)
 		return (ft_free_clean(var.extracted_line, buffer[fd]));
 	return (var.extracted_line);
 }
-
 // int main(int argc, char **argv)
 // {
 // 	(void)argc;
