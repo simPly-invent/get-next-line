@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 09:29:22 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 09:29:26 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/12/06 17:17:56 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static int	value_min(int a, int b);
+static int	value_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
 
 char	*ft_free_clean(char *ptr, char *buffer)
 {
@@ -36,20 +41,16 @@ int	ft_strlen(char *str)
 
 static void	*ft_memcpy(void *dest, void *src, size_t len)
 {
-	unsigned char	*s1;
-	unsigned char	*s2;
 	size_t			i;
 
 	i = 0;
-	s1 = (unsigned char *)dest;
-	s2 = (unsigned char *)src;
 	while (i < len)
 	{
-		s1[i] = s2[i];
+		*(unsigned char *)(dest + i) = *(unsigned char *)(src + i);
 		i++;
 	}
-	s1[i] = '\0';
-	return (s1);
+	*(unsigned char *)(dest + i) = '\0';
+	return (dest);
 }
 
 char	*ft_strjoin(char *dst, char *src)
@@ -78,11 +79,4 @@ char	*ft_strjoin(char *dst, char *src)
 	ptr[s1 + s2] = '\0';
 	free(dst);
 	return (ptr);
-}
-
-static int	value_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
 }

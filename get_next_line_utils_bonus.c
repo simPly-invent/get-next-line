@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 09:29:33 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 09:29:39 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/12/06 15:25:20 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static int	value_min(int a, int b);
+static int	value_min(int a, int b)
+{
+	if (a < b)
+		return (a);
+	return (b);
+}
 
 char	*ft_free_clean(char *ptr, char *buffer)
 {
@@ -78,11 +83,4 @@ char	*ft_strjoin(char *dst, char *src)
 	ptr[s1 + s2] = '\0';
 	free(dst);
 	return (ptr);
-}
-
-static int	value_min(int a, int b)
-{
-	if (a < b)
-		return (a);
-	return (b);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 09:28:43 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 09:28:47 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/12/06 17:13:28 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*get_next_line(int fd)
 
 	var.byte_read = 1;
 	var.extracted_line = NULL;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	while (var.byte_read > 0)
 	{
 		if (!buffer[0])
@@ -77,8 +79,6 @@ char	*get_next_line(int fd)
 		if (var.byte_read < 0)
 			return (ft_free_clean(var.extracted_line, buffer));
 		var.extracted_line = ft_strjoin(var.extracted_line, buffer);
-		if (!var.extracted_line)
-			return (NULL);
 		if (isback(buffer) != ft_strlen(buffer))
 		{
 			ft_strmove(buffer, buffer, isback(buffer) + 1);
@@ -92,20 +92,21 @@ char	*get_next_line(int fd)
 	return (var.extracted_line);
 }
 
-// int main(int argc, char **argv)
+// #include <stdio.h>
+// int main()
 // {
-// 	(void)argc;
 // 	char *ptr;
 // 	int fd;
 // 	ptr = "";
-// 	fd = open(argv[1], O_RDONLY);
+// 	fd = open("test.txt", O_RDONLY);
+// 	ptr = get_next_line(0);
+// 	printf("%s", ptr);
 // 	while (ptr)
 // 	{
-// 		ptr = get_next_line(fd);
-// 		printf("%s", ptr);
 // 		free(ptr);
+// 		ptr = get_next_line(0);
+// 		printf("%s", ptr);
 // 	}
-// 	ptr = get_next_line(fd);
 // 	free(ptr);
-
+// 	close(fd);
 // }

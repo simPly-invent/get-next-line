@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mobenais <mobenais@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: mobenais <mobenais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 09:23:57 by mobenais          #+#    #+#             */
-/*   Updated: 2025/12/05 09:24:01 by mobenais         ###   ########lyon.fr   */
+/*   Updated: 2025/12/06 17:16:30 by mobenais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*get_next_line(int fd)
 
 	var.byte_read = 1;
 	var.extracted_line = NULL;
+	if (fd > 1024 || fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	while (var.byte_read > 0)
 	{
 		if (!buffer[fd][0])
@@ -77,8 +79,6 @@ char	*get_next_line(int fd)
 		if (var.byte_read < 0)
 			return (ft_free_clean(var.extracted_line, buffer[fd]));
 		var.extracted_line = ft_strjoin(var.extracted_line, buffer[fd]);
-		if (!var.extracted_line)
-			return (NULL);
 		if (isback(buffer[fd]) != ft_strlen(buffer[fd]))
 		{
 			ft_strmove(buffer[fd], buffer[fd], isback(buffer[fd]) + 1);
@@ -97,14 +97,11 @@ char	*get_next_line(int fd)
 // 	char *ptr;
 // 	int fd;
 // 	ptr = "";
-// 	fd = open(argv[1], O_RDONLY);
+// 	fd = open("test_1025.txt", O_RDONLY);
 // 	while (ptr)
 // 	{
 // 		ptr = get_next_line(fd);
 // 		printf("%s", ptr);
 // 		free(ptr);
 // 	}
-// 	ptr = get_next_line(fd);
-// 	free(ptr);
-
 // }
