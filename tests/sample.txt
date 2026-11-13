@@ -1,0 +1,6 @@
+get_next_line reads a file one line at a time.
+It keeps the leftover of each read() call in a static buffer,
+so every call returns exactly one line, whatever BUFFER_SIZE is.
+
+Empty lines are returned as "\n".
+The last line is returned even without a trailing newline

@@ -1,0 +1,5 @@
+*.o
+*.a
+*.out
+tests/run_tests
+tests/run_tests_bonus
